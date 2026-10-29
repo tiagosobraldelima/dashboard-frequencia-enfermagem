@@ -4,8 +4,10 @@ Painel interativo no Google Sheets para acompanhar a frequência de cada aluno d
 Turmas A e B do Curso Técnico em Enfermagem (ETSAL / UNCISAL) e a aptidão ao
 auxílio estudantil. O auxílio exige frequência mínima de 75% em cada parcela.
 
-O painel é feito só com fórmulas, validação de dados e gráficos nativos.
-Não usa Apps Script, então funciona para quem tem acesso de leitura à planilha.
+O projeto tem duas camadas:
+
+- **Painel na planilha** (`DASHBOARD DO ALUNO`): feito só com fórmulas, validação de dados e gráficos nativos, sem Apps Script. Os filtros são listas suspensas, então **só funcionam para quem pode editar** a planilha.
+- **Relatório no Looker Studio**: para a equipe com acesso **só de leitura**. Os filtros em cascata funcionam para todos, e cada pessoa tem a própria seleção. Ele lê duas abas de dados geradas por fórmula (`LS_REGISTROS` e `LS_PARCELAS`). O passo a passo está em [`docs/looker-studio.md`](docs/looker-studio.md).
 
 ## O que o painel mostra
 
@@ -45,7 +47,8 @@ O plano e as decisões de projeto estão em [`docs/plano.md`](docs/plano.md).
 ## Estrutura do repositório
 
 ```
-build/layout.py     gerador das requisições (Sheets API batchUpdate)
+build/layout.py     gerador das requisições do painel na planilha (Sheets API batchUpdate)
+build/looker.py     gerador das abas de dados do Looker Studio (LS_REGISTROS, LS_PARCELAS)
 docs/arquitetura.md mapa de células, fórmulas e dependências
 docs/plano.md       plano, decisões e pendências
 ```
@@ -63,6 +66,7 @@ python3 build/layout.py formato1  > build/lote2_1.json # formatos, larguras, mes
 python3 build/layout.py formato2  > build/lote2_2.json # mesclagens e estilos
 python3 build/layout.py formato3  > build/lote2_3.json # bordas, validações, cond. format, proteção
 python3 build/layout.py graficos  > build/lote3.json   # 3 gráficos
+python3 build/looker.py           > build/lote_looker.json # abas de dados do Looker Studio
 ```
 
 Envie cada arquivo, nesta ordem, como o corpo `requests` de
@@ -85,6 +89,7 @@ A planilha usa a localidade pt_BR. Por isso as fórmulas usam `;` como separador
 
 ## Limitações conhecidas
 
+- **Quem só tem acesso de leitura não usa os filtros da planilha.** Para essa equipe, use o relatório do Looker Studio.
 - **Segmentações (slicers) não fazem cascata** no Google Sheets. Por isso os filtros são listas suspensas que apontam para listas dinâmicas. Ao trocar a turma, o aluno anterior não é limpo automaticamente; o painel mostra um aviso. Limpar o campo automaticamente exigiria um gatilho `onEdit` em Apps Script.
 - O filtro de **Disciplina** depende do preenchimento da coluna H de `REGISTROS`. Hoje cerca de 45% dos lançamentos têm disciplina, e nenhum de outubro.
 - A **margem de faltas** é uma estimativa: dias letivos previstos na parcela atual (excluindo feriados) × h/a × 25%, menos as faltas já registradas.

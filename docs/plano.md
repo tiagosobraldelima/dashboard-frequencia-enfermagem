@@ -16,6 +16,7 @@ só os alunos daquela turma.
 | Fonte da frequência | `BASE FREQUÊNCIA` (mesma dos relatórios oficiais) | O painel não pode divergir do pagamento |
 | Cálculos | Aba oculta `CALC_DASH` | Dashboard limpo; fórmulas auditáveis num só lugar |
 | Margem de faltas | Calculada na parcela atual, não no curso todo | No curso completo (111 dias) a margem era grande demais para orientar o aluno |
+| Acesso da equipe | Relatório no Looker Studio sobre abas de dados geradas por fórmula | Todos os usuários têm acesso só de leitura, e os filtros da planilha exigem edição; o Looker dá seleção individual sem mudar permissões |
 | Visual | Mesma paleta e fonte (Inter) da planilha de pagamentos | Consistência entre as planilhas da coordenação |
 
 ## Etapas
@@ -26,7 +27,9 @@ só os alunos daquela turma.
 - [x] Lote 2: formatação, filtros vinculados, formatação condicional, proteção
 - [x] Lote 3: gráficos (linha, colunas empilhadas, rosca)
 - [x] Teste da cascata: com "Turma B", a lista mostra só alunos da Turma B, e o aluno da Turma A fica marcado como inválido, com aviso
-- [x] Publicação no GitHub
+- [x] Publicação no GitHub e no GitHub Pages
+- [x] Abas de dados do Looker Studio (`LS_REGISTROS`, `LS_PARCELAS`). Conferência dos 60 alunos: 232 de 240 combinações de aluno e parcela idênticas à `BASE FREQUÊNCIA`; as 8 restantes são parcelas de desligamento (base em branco, cálculo pelos lançamentos = 0%)
+- [ ] Montagem do relatório no Looker Studio (manual, ver [guia](looker-studio.md))
 
 ## Pendências e melhorias possíveis
 
